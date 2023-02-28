@@ -13,7 +13,7 @@ namespace ZooManager
             species = "chick";
             this.name = name;
             reactionTime = new Random().Next(6, 10);
-            predators = new List<string>(){"cat"};
+            predators = new List<string>() { "cat" };
             turnsTaken = 0;
         }
 
@@ -25,8 +25,7 @@ namespace ZooManager
 
             if (turnsTaken == 4)
             {
-                turnsTaken = 0;
-                Mature();
+                Mature(this, name);
             }
             else
             {
@@ -35,9 +34,17 @@ namespace ZooManager
             }
         }
 
-        public void Mature()
+        public void Mature(Animal prevAnimal, string name)
         {
+            int x = prevAnimal.location.x;
+            int y = prevAnimal.location.y;
+
             Raptor raptor = new Raptor(name);
+
+            Game.animalZones[y][x].occupant = raptor;
+            raptor.turnsTaken = 0;
+            Console.WriteLine($"Chick matured into a Raptor!");
+
         }
     }
 }

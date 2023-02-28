@@ -7,5 +7,6 @@ namespace ZooManager
 {
     public class Bird : Animal
     {
+
     }
 }
