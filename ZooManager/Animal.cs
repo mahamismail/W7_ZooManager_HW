@@ -11,6 +11,7 @@ namespace ZooManager
         public int reactionTime = 5; // default reaction time for animals (1 - 10)
         public List<string> preys;
         public List<string> predators;
+        public int turnsTaken;
         
         public Point location;
 
@@ -32,28 +33,30 @@ namespace ZooManager
          * cat also has a predator to avoid, since the cat may not want to run in
          * to a square that sets it up to be attacked!
          */
-        public void Hunt(List<string> preys)
+
+        public void Hunt(List<string> preys, int dist)
         {
             foreach (string prey in preys)
-            {
-                if (Game.Seek(location.x, location.y, Direction.up, prey))
+            {   
+                if (Game.Seek(location.x, location.y, Direction.up, prey, dist) != 0) // if the dist returned from Seek() is not 0 do this
                 {
                     Game.Attack(this, Direction.up);
                 }
-                else if (Game.Seek(location.x, location.y, Direction.down, prey))
+                else if (Game.Seek(location.x, location.y, Direction.down, prey, dist) != 0 )
                 {
                     Game.Attack(this, Direction.down);
                 }
-                else if (Game.Seek(location.x, location.y, Direction.left, prey))
+                else if (Game.Seek(location.x, location.y, Direction.left, prey, dist) != 0)
                 {
                     Game.Attack(this, Direction.left);
                 }
-                else if (Game.Seek(location.x, location.y, Direction.right, prey))
+                else if (Game.Seek(location.x, location.y, Direction.right, prey, dist) != 0 )
                 {
                     Game.Attack(this, Direction.right);
                 }
             }
         }
+
 
         /* Note that our mouse is (so far) a teeny bit more strategic than our cat.
         * The mouse looks for cats and tries to run in the opposite direction to
@@ -64,28 +67,30 @@ namespace ZooManager
         * foundation here for intelligence, since we actually check whether our escape
         * was succcesful -- unlike our cats, who just assume they'll get their prey!
         */
-        public void Flee(List<string> predators)
+
+        public void Flee(List<string> predators, int dist)
         {
             foreach (string predator in predators)
             {
-                if (Game.Seek(location.x, location.y, Direction.up, predator))
+                if (Game.Seek(location.x, location.y, Direction.up, predator, dist) != 0) // if the dist returned from Seek() is not 0 do this
                 {
                     if (Game.Retreat(this, Direction.down)) return;
                 }
-                if (Game.Seek(location.x, location.y, Direction.down, predator))
+                if (Game.Seek(location.x, location.y, Direction.down, predator, dist) != 0)
                 {
                     if (Game.Retreat(this, Direction.up)) return;
                 }
-                if (Game.Seek(location.x, location.y, Direction.left, predator))
+                if (Game.Seek(location.x, location.y, Direction.left, predator, dist) != 0)
                 {
                     if (Game.Retreat(this, Direction.right)) return;
                 }
-                if (Game.Seek(location.x, location.y, Direction.right, predator))
+                if (Game.Seek(location.x, location.y, Direction.right, predator, dist) != 0)
                 {
                     if (Game.Retreat(this, Direction.left)) return;
                 }
             }
         }
+
 
     }
 }

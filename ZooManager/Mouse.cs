@@ -17,13 +17,16 @@ namespace ZooManager
              * so mice are more likely to react to their surroundings faster than cats!
              */
             predators = new List<string>() { "cat" };
+            turnsTaken = 0;
         }
 
         public override void Activate()
         {
             base.Activate();
             Console.WriteLine("I am a mouse. Squeak.");
-            Flee(predators);
+            Flee(predators, 1);
+            turnsTaken++;
+            Console.WriteLine($"This {species} took {turnsTaken} turns.");
         }
     }
 }

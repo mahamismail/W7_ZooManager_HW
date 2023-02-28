@@ -117,34 +117,58 @@ namespace ZooManager
             }
         }
 
-        static public bool Seek(int x, int y, Direction d, string target)
+        // This method takes in five parameters:
+        // - x and y are the starting coordinates for the search
+        // - d is the direction to search in
+        // - target is the animal species to look for
+        // - dist is the maximum distance to search for the target animal
+        static public int Seek(int x, int y, Direction d, string target, int dist)
         {
-            switch (d)
+            int numTargets = 0; //variable to count the number of targets found
+
+            for (int i = 0; i < dist; i++)  //Loop through the specified distance
             {
-                case Direction.up:
-                    y --;
+                numTargets++;
+
+                switch (d) // Move the current position in the specified direction
+                {
+                    case Direction.up:
+                        y--;
+                        break;
+
+                    case Direction.down:
+                        y++;
+                        break;
+
+                    case Direction.left:
+                        x--;
+                        break;
+
+                    case Direction.right:
+                        x++;
+                        break;
+                }
+
+                if (y < 0 || x < 0 || y > numCellsY - 1 || x > numCellsX - 1) //Checking if the current position is out of bounds
                     break;
 
-                case Direction.down:
-                    y++;
-                    break;
-                    
-                case Direction.left:
-                    x--;
-                    break;
+                if (animalZones[y][x].occupant == null) //Checking if the current cell is occupied by an animal
+                    continue;
 
-                case Direction.right:
-                    x++;
-                    break;
+                //Checking if the animal in the current cell is the target species
+                if (animalZones[y][x].occupant.species == target)
+                {
+                    Console.WriteLine($"Found {target} {numTargets} block away");
+
+                    return numTargets; //Return the distance
+                }
             }
-            if (y < 0 || x < 0 || y > numCellsY - 1 || x > numCellsX - 1) return false;
-            if (animalZones[y][x].occupant == null) return false;
-            if (animalZones[y][x].occupant.species == target)
-            {
-                return true;
-            }
-            return false;
+
+            return 0;
         }
+
+ 
+
 
         /* This method currently assumes that the attacker has determined there is prey
          * in the target direction. In addition to bug-proofing our program, can you think
@@ -208,6 +232,7 @@ namespace ZooManager
                         return true; // retreat was successful
                     }
                     return false; // retreat was not successful
+
                     /* Note that in these four cases, in our conditional logic we check
                      * for the animal having one square between itself and the edge that it is
                      * trying to run to. For example,in the above case, we check that y is greater
@@ -216,6 +241,7 @@ namespace ZooManager
                      * to row -1 would cause a runtime error. This is a slightly different way of testing
                      * if 
                      */
+
                 case Direction.down:
                     if (y < numCellsY - 1 && animalZones[y + 1][x].occupant == null)
                     {
@@ -243,6 +269,7 @@ namespace ZooManager
             }
             return false; // fallback
         }
+
     }
 }
 
