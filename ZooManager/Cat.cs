@@ -16,8 +16,15 @@ namespace ZooManager
             predators = new List<string>() { "raptor" };
             preys = new List<string>() { "mouse", "chick" };
             turnsTaken = 0;
+            
         }
 
+
+        /************************* override ACTIVATE() **************************
+        * This method takes from Activate() in Animal class and overrides
+        * for Cat.
+        * It calls Flee(), Hunt() and writes to console
+        ************************************************************************/
         public override void Activate()
         {
             base.Activate();
@@ -25,6 +32,7 @@ namespace ZooManager
             Flee(predators, 1);
             Hunt(preys, 1);
             turnsTaken++;
+
             Console.WriteLine($"This {species} took {turnsTaken} turns.");
         }
 

@@ -15,36 +15,29 @@ namespace ZooManager
             reactionTime = new Random().Next(6, 10);
             predators = new List<string>() { "cat" };
             turnsTaken = 0;
+
         }
 
+        /************************* override ACTIVATE() **************************
+        * This method takes from Activate() in Animal class and overrides
+        * for Chick.
+        * It calls Flee(), Mature() and writes to console
+        ************************************************************************/
         public override void Activate()
         {
             base.Activate();
             Console.WriteLine("I am a chick. Tweet.");
             Flee(predators, 1);
 
-            if (turnsTaken == 4)
+            if (turnsTaken == 3)
             {
-                Mature(this, name);
+                Mature(this, new Raptor(name));
             }
             else
             {
                 turnsTaken++;
-                Console.WriteLine($"This {species} took {turnsTaken} turns.");
+                Console.WriteLine($"This {species} took {turnsTaken} turn/s.");
             }
-        }
-
-        public void Mature(Animal prevAnimal, string name)
-        {
-            int x = prevAnimal.location.x;
-            int y = prevAnimal.location.y;
-
-            Raptor raptor = new Raptor(name);
-
-            Game.animalZones[y][x].occupant = raptor;
-            raptor.turnsTaken = 0;
-            Console.WriteLine($"Chick matured into a Raptor!");
-
         }
     }
 }

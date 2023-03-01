@@ -20,6 +20,11 @@ namespace ZooManager
             turnsTaken = 0;
         }
 
+        /************************* override ACTIVATE() **************************
+        * This method takes from Activate() in Animal class and overrides
+        * for Mouse.
+        * It calls Flee() and writes to console
+        ************************************************************************/
         public override void Activate()
         {
             base.Activate();

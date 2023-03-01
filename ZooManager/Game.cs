@@ -16,6 +16,11 @@ namespace ZooManager
         static public List<List<Zone>> animalZones = new List<List<Zone>>();
         static public Zone holdingPen = new Zone(-1, -1, null);
 
+
+        /************************* SETUPGAME() ***************************************
+         * Makes a list of rows and columns for game.
+         * Called in Game object
+         ************************************************************************/
         static public void SetUpGame()
         {
             for (var y = 0; y < numCellsY; y++)
@@ -27,6 +32,11 @@ namespace ZooManager
             }
         }
 
+        /************************* ADDZONES() ************************************
+         * This method adds row or column to the existing zones.
+         * Takes parameters direction
+         * Called on button click
+         ************************************************************************/
         static public void AddZones(Direction d)
         {
             if (d == Direction.down || d == Direction.up)
@@ -54,6 +64,12 @@ namespace ZooManager
             }
         }
 
+        /************************* ZONECLICK() ***************************************
+         * This method checks if a zone has been clicked or not and places animal onto
+         * zone if any animal is in holding
+         * Takes parameters clickedZone
+         * Calls methods ActivateAnimals() and DeactivateAnimals()
+         ************************************************************************/
         static public void ZoneClick(Zone clickedZone)
         {
             Console.Write("Got animal ");
@@ -69,7 +85,7 @@ namespace ZooManager
                 holdingPen.occupant.location.x = -1;
                 holdingPen.occupant.location.y = -1;
                 clickedZone.occupant = null;
-                ActivateAnimals();
+                //ActivateAnimals();
             }
             else if (holdingPen.occupant != null && clickedZone.occupant == null)
             {
@@ -80,6 +96,8 @@ namespace ZooManager
                 holdingPen.occupant = null;
                 Console.WriteLine("Empty spot now holds: " + clickedZone.emoji);
                 ActivateAnimals();
+                DectivateAnimals();
+
             }
             else if (holdingPen.occupant != null && clickedZone.occupant != null)
             {
@@ -89,7 +107,11 @@ namespace ZooManager
         }
 
 
-
+        /************************* ADDANIMALTOHOLDING() ***************************
+         * This method adds the selected animal to the holding pen
+         * Takes parameters animalType
+         * It instantiates new Animal subclass objects depending on given parameter.
+         ************************************************************************/
         static public void AddAnimalToHolding(string animalType)
         {
             if (holdingPen.occupant != null) return;
@@ -98,10 +120,45 @@ namespace ZooManager
             if (animalType == "raptor") holdingPen.occupant = new Raptor("Dinobirdy");
             if (animalType == "chick") holdingPen.occupant = new Chick("Chicky");
             Console.WriteLine($"Holding pen occupant at {holdingPen.occupant.location.x},{holdingPen.occupant.location.y}");
-            ActivateAnimals();
+            //ActivateAnimals();
         }
 
-        static public void ActivateAnimals()
+        /*When isActivated was not included in ActivateAnimals(), this is what happened
+         * If an animal moves right or down, it gets activated twice in the same call to ActivateAnimals(), 
+         * but if it moves up or left (or remains where it is), it only gets activated once. 
+         * This is because the squares are checked left to right, top to bottom. When one animal is 
+         * activated it performs its task and moves down, of right it is checked AGAIN because the code 
+         * was still in process of checking the rest of the squares.
+         */
+
+        /************************* ACTIVATEANIMALS() *****************************
+         * This method activates animals in the zones.
+         * Called on Activate()
+         ************************************************************************/
+        static public void ActivateAnimals() 
+        {
+            for (var r = 1; r < 11; r++) // reaction times from 1 to 10
+            {
+                for (var y = 0; y < numCellsY; y++)
+                {
+                    for (var x = 0; x < numCellsX; x++)
+                    {
+                            var zone = animalZones[y][x];
+                            if (zone.occupant != null && zone.occupant.reactionTime == r && zone.occupant.isActivated == false)
+                            {
+                                zone.occupant.Activate();
+                                //Console.WriteLine($"Activating square ({x},{y}) of rt {r} with animal {zone.occupant})");
+                            }
+                    }
+                }
+            }
+        }
+
+        /************************* DEACTIVATEANIMALS() ***************************
+         * This method deactivates animals in the zones.
+         * Called on Dectivate()
+         ************************************************************************/
+        static public void DectivateAnimals()
         {
             for (var r = 1; r < 11; r++) // reaction times from 1 to 10
             {
@@ -110,22 +167,24 @@ namespace ZooManager
                     for (var x = 0; x < numCellsX; x++)
                     {
                         var zone = animalZones[y][x];
-                        if (zone.occupant != null && zone.occupant.reactionTime == r)
+                        if (zone.occupant != null && zone.occupant.reactionTime == r && zone.occupant.isActivated == true)
                         {
-                            zone.occupant.Activate();    
+                            zone.occupant.Deactivate();
                         }
                     }
                 }
             }
         }
 
-
-
-        // This method takes in five parameters:
-        // - x and y are the starting coordinates for the search
-        // - d is the direction to search in
-        // - target is the animal species to look for
-        // - dist is the maximum distance to search for the target animal
+        /**************************** SEEK() **************************************
+         * This method checks the animal and it's zone's surroundings to 
+         * detect other animals.
+         * This method takes 4 parameters.
+         * - x and y are the starting coordinates for the search
+         * - d is the direction to search in
+         * - target is the animal species to look for
+         * - dist is the maximum distance to search for the target animal
+         ************************************************************************/
         static public int Seek(int x, int y, Direction d, string target, int dist)
         {
             int numTargets = 0; //variable to count the number of targets found
@@ -171,15 +230,14 @@ namespace ZooManager
             return 0;
         }
 
- 
-
-
-        /* This method currently assumes that the attacker has determined there is prey
+        /**************************** ATTACK() **************************************
+         * This method currently assumes that the attacker has determined there is prey
          * in the target direction. In addition to bug-proofing our program, can you think
          * of creative ways that NOT just assuming the attack is on the correct target (or
          * successful for that matter) could be used?
-         */
-
+         * This method takes 2 parameters.
+         * - attacker is Animal that is attacking, d is the direction to search in
+         ************************************************************************/
         static public void Attack(Animal attacker, Direction d)
         {
             Console.WriteLine($"{attacker.name} is attacking {d.ToString()}");
@@ -216,6 +274,11 @@ namespace ZooManager
          * this code (and the Attack and Seek code) to help our animals strategize more...
          */
 
+        /**************************** RETREAT() **************************************
+         * This method moves the fleeing animal in the opposite direction from attacker.
+         * This method takes 2 parameters.
+         * - runner is Animal that is running, d is the direction to search in.
+         ************************************************************************/
         static public bool Retreat(Animal runner, Direction d)
         {
             Console.WriteLine($"{runner.name} is retreating {d.ToString()}");

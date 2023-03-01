@@ -15,8 +15,14 @@ namespace ZooManager
             reactionTime = 1; // reaction time 1 (fast)
             preys = new List<string>() { "cat", "mouse" };
             turnsTaken = 0;
+
         }
 
+        /************************* override ACTIVATE() **************************
+        * This method takes from Activate() in Animal class and overrides
+        * for Raptor.
+        * It calls Hunt() and writes to console
+        ************************************************************************/
         public override void Activate()
         {
             base.Activate();
