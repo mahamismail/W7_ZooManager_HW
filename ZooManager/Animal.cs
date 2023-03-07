@@ -3,49 +3,11 @@ using System.Collections.Generic;
 
 namespace ZooManager
 {
-    public class Animal
+    public abstract class Animal: LivingOrg, IPrey, IPredator 
+
     {
-        //calling all variables here, that may or may not be used in its subclasses, depending on need.
-        public string emoji;
-        public string species;
-        public string name;
-        public int reactionTime = 5; // default reaction time for animals (1 - 10)
-        public List<string> preys; // list of animals that an animal can attacked
-        public List<string> predators; // list of animals that an animal can avoid
-        public int turnsTaken; // number of turns taken on the board
-        public bool isActivated = false; //{ get; set; }// bool to check when animal is activated.
-        public Point location;
-
-
-        /************************* REPORTLOCATION() ******************************
-         * This method reports which square the Animal is on. It writes to console.
-         * Called in Game object.
-         ************************************************************************/
-        public void ReportLocation()
-        {
-            Console.WriteLine($"I am at {location.x},{location.y}");
-        }
-
-        /************************* ACTIVATE() ************************************
-         * This method activates the animal and writes in console
-         * Called in Game object and in all Animal subclasses with override.
-         ************************************************************************/
-        virtual public void Activate()
-        {
-            isActivated = true;
-            //Console.WriteLine($"Animal {name} at {location.x},{location.y} activated");
-        }
-
-        /************************* DEACTIVATE() ************************************
-        * This method deactivates the animal and writes in console
-        * Called in Game object.
-        ************************************************************************/
-        public void Deactivate()
-        {
-            isActivated = false;
-            //Console.WriteLine($"Animal {name} at {location.x},{location.y} deactivated");
-        }
-
+        public List<string> preys { get; set; } // list of animals that an animal can attacked
+        public List<string> predators { get; set; } // list of animals that an animal can avoid 
 
         /* Note that our cat is currently not very clever about its hunting.
          * It will always try to attack "up" and will only seek "down" if there
@@ -85,7 +47,6 @@ namespace ZooManager
                 }
             }
         }
-
 
         /* Note that our mouse is (so far) a teeny bit more strategic than our cat.
         * The mouse looks for cats and tries to run in the opposite direction to

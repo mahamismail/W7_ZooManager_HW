@@ -119,6 +119,7 @@ namespace ZooManager
             if (animalType == "mouse") holdingPen.occupant = new Mouse("Squeaky");
             if (animalType == "raptor") holdingPen.occupant = new Raptor("Dinobirdy");
             if (animalType == "chick") holdingPen.occupant = new Chick("Chicky");
+            if (animalType == "alien") holdingPen.occupant = new Alien("AlienMan");
             Console.WriteLine($"Holding pen occupant at {holdingPen.occupant.location.x},{holdingPen.occupant.location.y}");
             //ActivateAnimals();
         }
@@ -236,9 +237,9 @@ namespace ZooManager
          * of creative ways that NOT just assuming the attack is on the correct target (or
          * successful for that matter) could be used?
          * This method takes 2 parameters.
-         * - attacker is Animal that is attacking, d is the direction to search in
+         * - attacker is LivingOrg that is attacking, d is the direction to search in
          ************************************************************************/
-        static public void Attack(Animal attacker, Direction d)
+        static public void Attack(LivingOrg attacker, Direction d)
         {
             Console.WriteLine($"{attacker.name} is attacking {d.ToString()}");
             int x = attacker.location.x;
@@ -277,9 +278,9 @@ namespace ZooManager
         /**************************** RETREAT() **************************************
          * This method moves the fleeing animal in the opposite direction from attacker.
          * This method takes 2 parameters.
-         * - runner is Animal that is running, d is the direction to search in.
+         * - runner is LivingOrg that is running, d is the direction to search in.
          ************************************************************************/
-        static public bool Retreat(Animal runner, Direction d)
+        static public bool Retreat(LivingOrg runner, Direction d)
         {
             Console.WriteLine($"{runner.name} is retreating {d.ToString()}");
             int x = runner.location.x;

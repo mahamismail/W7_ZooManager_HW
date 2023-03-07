@@ -13,7 +13,7 @@ namespace ZooManager
             species = "cat";
             this.name = name;
             reactionTime = new Random().Next(1, 6); // reaction time 1 (fast) to 5 (medium)
-            predators = new List<string>() { "raptor" };
+            predators = new List<string>() { "raptor", "alien" };
             preys = new List<string>() { "mouse", "chick" };
             turnsTaken = 0;
             

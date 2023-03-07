@@ -13,10 +13,12 @@ namespace ZooManager
             species = "raptor";
             this.name = name;
             reactionTime = 1; // reaction time 1 (fast)
-            preys = new List<string>() { "cat", "mouse" };
+            preys = new List<string>() { "cat", "mouse", "alien" };
             turnsTaken = 0;
 
         }
+
+        public List<string> Preys { get; set; }
 
         /************************* override ACTIVATE() **************************
         * This method takes from Activate() in Animal class and overrides

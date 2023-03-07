@@ -13,7 +13,7 @@ namespace ZooManager
             species = "chick";
             this.name = name;
             reactionTime = new Random().Next(6, 10);
-            predators = new List<string>() { "cat" };
+            predators = new List<string>() { "cat", "alien" };
             turnsTaken = 0;
 
         }
