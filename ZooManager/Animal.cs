@@ -29,7 +29,7 @@ namespace ZooManager
         {
             foreach (string prey in preys)
             {   
-                if (Game.Seek(location.x, location.y, Direction.up, prey, dist) != 0) // if the dist returned from Seek() is not 0 do this
+                if (Game.Seek(location.x, location.y, Direction.up, prey, dist) != 0) // if the dist returned from Seek() is not 0, do this
                 {
                     Game.Attack(this, Direction.up);
                 }
@@ -102,7 +102,27 @@ namespace ZooManager
 
             Game.animalZones[y][x].occupant = evolvingAnimal;
             evolvingAnimal.turnsTaken = 0;
-            Console.WriteLine($"Chick matured into a {evolvingAnimal.GetType().Name}!");
+            Console.WriteLine($"{currentAnimal.GetType().Name} matured into a {evolvingAnimal.GetType().Name}!");
+
+        }
+
+        /************************* DEATH() feature (m) **************************
+        * This method kills the animal. 
+        * (Replaces dying animal with skull)
+        * Requires parameters of the dyingAnimal
+        * Called in Activate() of any Animal object that may need to die.
+        * Currently in Cat and Raptor
+        ************************************************************************/
+        public void Death(Animal dyingAnimal)
+        {
+            int x = dyingAnimal.location.x;
+            int y = dyingAnimal.location.y;
+
+            Skull skull = new Skull("Skully");
+
+            Game.animalZones[y][x].occupant = skull;
+            Console.WriteLine($"{dyingAnimal.GetType().Name} died!");
+
 
         }
 

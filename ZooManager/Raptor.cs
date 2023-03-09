@@ -13,8 +13,11 @@ namespace ZooManager
             species = "raptor";
             this.name = name;
             reactionTime = 1; // reaction time 1 (fast)
-            preys = new List<string>() { "cat", "mouse", "alien" };
+            preys = new List<string>() { "cat", "mouse" };
+            predators = new List<string>() { "alien" };
             turnsTaken = 0;
+            hunger = 4;
+            huntSuccess = false;
 
         }
 
@@ -23,16 +26,32 @@ namespace ZooManager
         /************************* override ACTIVATE() **************************
         * This method takes from Activate() in Animal class and overrides
         * for Raptor.
-        * It calls Hunt() and writes to console
+        * It calls Hunt(), Flee() and Death() and writes to console
         ************************************************************************/
         public override void Activate()
         {
             base.Activate();
-            Console.WriteLine("I am a raptor. Rawr.");
+            Flee(predators, 1);
             Hunt(preys, 1);
+
+            if (huntSuccess == true)
+            {
+                hunger = 4;
+            }
+            else
+            {
+                hunger--;
+
+                if (hunger <= 0)
+                {
+                    Death(this);
+                }
+            }
+
+            Console.WriteLine("I am a raptor. Rawr.");
+
             turnsTaken++;
             Console.WriteLine($"This {species} took {turnsTaken} turns.");
         }
-
     }
 }

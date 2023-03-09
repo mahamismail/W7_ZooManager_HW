@@ -16,7 +16,9 @@ namespace ZooManager
             predators = new List<string>() { "raptor", "alien" };
             preys = new List<string>() { "mouse", "chick" };
             turnsTaken = 0;
-            
+            hunger = 4;
+            huntSuccess = false;
+
         }
 
 
@@ -28,11 +30,26 @@ namespace ZooManager
         public override void Activate()
         {
             base.Activate();
-            Console.WriteLine("I am a cat. Meow.");
             Flee(predators, 1);
             Hunt(preys, 1);
-            turnsTaken++;
 
+            if (huntSuccess == true)
+            {
+                hunger = 4;
+            }
+            else
+            {
+                hunger--;
+
+                if (hunger <= 0)
+                {
+                    Death(this);
+                }
+            }
+
+            Console.WriteLine("I am a cat. Meow.");
+
+            turnsTaken++;
             Console.WriteLine($"This {species} took {turnsTaken} turns.");
         }
 

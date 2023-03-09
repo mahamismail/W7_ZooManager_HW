@@ -8,8 +8,6 @@ namespace ZooManager
     public class Alien : LivingOrg, IPredator
     {
         public List<string> preys { get; set; } // list of animals that an animal can attacked
-        //get { return preys; } 
-        //set { preys = value; }
 
         public Alien(string name)
         {

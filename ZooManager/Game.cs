@@ -155,7 +155,7 @@ namespace ZooManager
             }
         }
 
-        /************************* DEACTIVATEANIMALS() ***************************
+        /************************* DEACTIVATEANIMALS() feature (o) ***************************
          * This method deactivates animals in the zones.
          * Called on Dectivate()
          ************************************************************************/
@@ -177,7 +177,7 @@ namespace ZooManager
             }
         }
 
-        /**************************** SEEK() **************************************
+        /**************************** SEEK() feature (f) **************************************
          * This method checks the animal and it's zone's surroundings to 
          * detect other animals.
          * This method takes 4 parameters.
@@ -249,15 +249,19 @@ namespace ZooManager
             {
                 case Direction.up:
                     animalZones[y - 1][x].occupant = attacker;
+                    attacker.huntSuccess = true;
                     break;
                 case Direction.down:
                     animalZones[y + 1][x].occupant = attacker;
+                    attacker.huntSuccess = true;
                     break;
                 case Direction.left:
                     animalZones[y][x - 1].occupant = attacker;
+                    attacker.huntSuccess = true;
                     break;
                 case Direction.right:
                     animalZones[y][x + 1].occupant = attacker;
+                    attacker.huntSuccess = true;
                     break;
             }
             animalZones[y][x].occupant = null;
