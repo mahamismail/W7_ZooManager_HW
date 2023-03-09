@@ -16,7 +16,7 @@ namespace ZooManager
             /* Note that Mouse reactionTime range is smaller than Cat reactionTime,
              * so mice are more likely to react to their surroundings faster than cats!
              */
-            predators = new List<string>() { "cat", "alien" };
+            predators = new List<string>() { "cat" };
             turnsTaken = 0;
         }
 

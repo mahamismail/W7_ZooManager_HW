@@ -14,7 +14,6 @@ namespace ZooManager
             this.name = name;
             reactionTime = 1; // reaction time 1 (fast)
             preys = new List<string>() { "cat", "mouse" };
-            predators = new List<string>() { "alien" };
             turnsTaken = 0;
             hunger = 4;
             huntSuccess = false;
@@ -31,7 +30,6 @@ namespace ZooManager
         public override void Activate()
         {
             base.Activate();
-            Flee(predators, 1);
             Hunt(preys, 1);
 
             if (huntSuccess == true)

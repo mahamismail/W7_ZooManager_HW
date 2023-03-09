@@ -8,7 +8,7 @@ namespace ZooManager
     interface IPredator
     {
         List<string> preys { get; } // list of animals that an animal can avoid
-        void Hunt(List<string> preys, int dist);
+        void Hunt(List<string> preys, int dist); // the common function that all predators use
 
     }
 }

@@ -88,7 +88,7 @@ namespace ZooManager
             }
         }
 
-        /************************* MATURE() **************************
+        /************************* MATURE() feature (n) **************************
         * This method evolves the curentAnimal to newAnimal. 
         * (Replaces old animal with new)
         * Requires parameters of the currentAnimal and newAnimal
@@ -106,7 +106,7 @@ namespace ZooManager
 
         }
 
-        /************************* DEATH() feature (m) **************************
+        /************************* DEATH() new feature (p) **************************
         * This method kills the animal. 
         * (Replaces dying animal with skull)
         * Requires parameters of the dyingAnimal
